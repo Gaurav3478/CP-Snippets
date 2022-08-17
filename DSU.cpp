@@ -1,23 +1,20 @@
 class DSU
 {
 private:
-    vector<int> parent, size;
+    vector<ll> parent, size;
 public:
-    DSU(int n)
-    {
-        parent = vector<int>(n);
-        size = vector<int>(n, 1);
+    DSU(ll n) {
+        parent = vector<ll>(n);
+        size = vector<ll>(n, 1);
         iota(begin(parent), end(parent), 0);
     }
     
-    int getParent(int x)
-    {
+    ll getParent(ll x) {
         if (parent[x] == x) return x;
         return parent[x] = getParent(parent[x]);
     }
 
-    void join(int x, int y)
-    {
+    void join(ll x, ll y) {
         x = getParent(x);
         y = getParent(y);
         if (size[x] > size[y])
@@ -27,8 +24,7 @@ public:
         size[y] += size[x];
     }
 
-    int getSize(int x)
-    {
+    ll getSize(ll x) {
         return size[x] = size[getParent(x)];
     }
 };
