@@ -1,12 +1,11 @@
-ll binpow(ll b,ll p)
-{
-    ll r=1;
-    while(p)
-    {
-        if(p&1)
-        r=(r*b)%MOD;
-        b=(b*b)%MOD;
-        p/=2;
+ll binpow(ll a, ll b, ll m) {
+    a %= m;
+    ll res = 1;
+    while (b > 0) {
+        if (b & 1)
+            res = res * a % m;
+        a = a * a % m;
+        b >>= 1;
     }
-    return r;
+    return res;
 }
