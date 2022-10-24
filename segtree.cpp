@@ -11,7 +11,7 @@ class segtree {
         for(ll i = n - 1; i; i--) t[i] = fx(t[i * 2], t[i * 2 + 1]);
     }
     void build(vector<T>& a, T _def, function<T(T, T)> _fx) {
-        n = sz(a), def = _def, fx = _fx;
+        n = a.size(), def = _def, fx = _fx;
         t.assign(n * 2, def);
         for(ll i = 0; i < n; i++) t[i + n] = a[i];
         for(ll i = n - 1; i; i--) t[i] = fx(t[i * 2], t[i * 2 + 1]);
