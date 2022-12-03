@@ -1,33 +1,35 @@
-/*
-4 steps:
-1) increment count of all numbers in array
-2) find the number of multiples of each number and store in cnt
-3) use formula to find out the real value of cnt (if pairs, nc2)
-4) traverse the array backwards and subtract from i'th cnt value all j cnt values where j is a multiple of i
-*/
-
 void solve(ll tc) {
-    ll n;
-    cin >> n;
-    vector<ll> cnt(N + 1, 0ll);
-    for(ll i = 0; i < n; i++) {
-        ll x;
-        cin >> x;
-        cnt[x]++;
+    ll n, k; 
+    cin >> n >> k;
+    vector<ll> vect(k);
+    for(ll i=0; i<k; i++) {
+        cin >> vect[i];
     }
 
-    for(ll i = 1; i <= N; i++) {
-        for(ll j = 2 * i; j <= N; j += i) {
-            cnt[i] += cnt[j];
+    ll ans = 0;
+    for(ll mask = 1; mask <= (1 << k) - 1; mask++) {
+        ll set_bits = __builtin_popcount(mask);
+        ll mult = 1;
+        bool grt = false;
+        for(ll j = 0; j < k; j++) {
+            if(mask & (1 << j)) {
+                if(mult > n/vect[j]) {
+                    grt = true;
+                    break;
+                }
+                mult *= vect[j];
+            }
         }
-        cnt[i] = (cnt[i] * (cnt[i] - 1)) / 2;
+            
+        if(!grt) {
+            ll cur = n / mult;
+            if(set_bits % 2) {
+                ans += cur;
+            }   
+            else {
+                ans -= cur;
+            }
+        }
     }
-
-    for(ll i = N; i >= 1; i--) {
-        for(ll j = 2 * i; j <= N; j += i) {
-            cnt[i] -= cnt[j];
-        } 
-    }
-
-    cout << cnt[1];
+    cout << ans;
 }
