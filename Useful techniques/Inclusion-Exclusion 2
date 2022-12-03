@@ -1,0 +1,33 @@
+/*
+4 steps:
+1) increment count of all numbers in array
+2) find the number of multiples of each number and store in cnt
+3) use formula to find out the real value of cnt (if pairs, nc2)
+4) traverse the array backwards and subtract from i'th cnt value all j cnt values where j is a multiple of i
+*/
+
+void solve(ll tc) {
+    ll n;
+    cin >> n;
+    vector<ll> cnt(N + 1, 0ll);
+    for(ll i = 0; i < n; i++) {
+        ll x;
+        cin >> x;
+        cnt[x]++;
+    }
+
+    for(ll i = 1; i <= N; i++) {
+        for(ll j = 2 * i; j <= N; j += i) {
+            cnt[i] += cnt[j];
+        }
+        cnt[i] = (cnt[i] * (cnt[i] - 1)) / 2;
+    }
+
+    for(ll i = N; i >= 1; i--) {
+        for(ll j = 2 * i; j <= N; j += i) {
+            cnt[i] -= cnt[j];
+        } 
+    }
+
+    cout << cnt[1];
+}
