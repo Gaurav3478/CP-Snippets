@@ -1,4 +1,4 @@
-ll MAXN = 10000005;
+ll MAXN = 1e7 + 5;
 vector<ll> spf(MAXN + 1, 1);
 
 void Sieve() {
@@ -13,7 +13,7 @@ void Sieve() {
     }
 }
 
-vector<ll> primeFactorization(ll n) {
+vector<ll> PrimeFactorization(ll n) {
     vector<ll> primes;
     while (n > 1) {
         ll fact = spf[n];
