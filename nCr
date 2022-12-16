@@ -1,0 +1,7 @@
+ll ncr(ll n, ll r) {
+    return fac[n] * power(1LL * fac[r] * fac[n - r] % MOD, MOD2 - 2, MOD) % MOD;
+}
+
+for(int i = 1; i <= N; i++) {
+    fac[i] = (1LL * fac[i - 1] * i) % MOD;
+}
