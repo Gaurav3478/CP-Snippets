@@ -1,5 +1,4 @@
-class DSU
-{
+class DSU {
 private:
     vector<ll> parent, size;
 public:
