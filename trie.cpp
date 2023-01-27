@@ -40,6 +40,7 @@ public:
                 return false;
             }
             temp = temp->children[vect[i]];
+        }
 
         return temp->isTerminal;
     }
