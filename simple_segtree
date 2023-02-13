@@ -1,0 +1,37 @@
+vector<ll> seg;
+
+void build(vector<int> &a, int n) {
+    seg.resize(2 * n, 0);
+    for(int i = 0; i < n; i++) {
+        seg[i + n] = a[i];
+    }
+    for(int i = n - 1; i >= 1; i--) {
+        seg[i] = seg[2 * i] + seg[2 * i + 1];
+    }
+}
+
+ll query(int node, int node_low, int node_high, int query_low, int query_high) {
+    if(query_low <= node_low && query_high >= node_high) {
+        return seg[node];
+    }
+    if(query_low > node_high || query_high < node_low) {
+        return 0;
+    }
+
+    int left_last = (node_low + node_high) / 2;
+    return query(2 * node, node_low, left_last, query_low, query_high) + query(2 * node + 1, left_last + 1, node_high, query_low, query_high);
+}
+
+void update_recursive(int node, int node_low, int node_high, int query_low, int query_high, int val) {
+    if(query_low <= node_low && query_high >= node_high) {
+        seg[node] = val;
+        return;
+    }
+    if(query_low > node_high || query_high < node_low) {
+        return;
+    }
+    int left_last = (node_low + node_high) / 2;
+    update_recursive(2 * node, node_low, left_last, query_low, query_high, val);
+    update_recursive(2 * node + 1, left_last + 1, node_high, query_low, query_high, val);
+    seg[node] = seg[2 * node] + seg[2 * node + 1];
+}
