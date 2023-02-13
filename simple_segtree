@@ -22,7 +22,7 @@ ll query(int node, int node_low, int node_high, int query_low, int query_high) {
     return query(2 * node, node_low, left_last, query_low, query_high) + query(2 * node + 1, left_last + 1, node_high, query_low, query_high);
 }
 
-void update_recursive(int node, int node_low, int node_high, int query_low, int query_high, int val) {
+void update(int node, int node_low, int node_high, int query_low, int query_high, int val) {
     if(query_low <= node_low && query_high >= node_high) {
         seg[node] = val;
         return;
@@ -31,7 +31,7 @@ void update_recursive(int node, int node_low, int node_high, int query_low, int 
         return;
     }
     int left_last = (node_low + node_high) / 2;
-    update_recursive(2 * node, node_low, left_last, query_low, query_high, val);
-    update_recursive(2 * node + 1, left_last + 1, node_high, query_low, query_high, val);
+    update(2 * node, node_low, left_last, query_low, query_high, val);
+    update(2 * node + 1, left_last + 1, node_high, query_low, query_high, val);
     seg[node] = seg[2 * node] + seg[2 * node + 1];
 }
