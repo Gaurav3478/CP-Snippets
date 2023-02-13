@@ -1,6 +1,6 @@
 vector<ll> seg;
 
-void build(vector<int> &a, int n) {
+void build(vector<ll> &a, int n) {
     seg.resize(2 * n, 0);
     for(int i = 0; i < n; i++) {
         seg[i + n] = a[i];
