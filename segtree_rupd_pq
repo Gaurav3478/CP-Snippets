@@ -1,0 +1,32 @@
+vector<ll> seg;
+
+void build(vector<ll> &vect, int n) {
+    seg.resize(2 * n, 0);
+    for(int i = 0; i < n; i++) {
+        seg[i + n] = vect[i];
+    }
+}
+
+void update(int node, int node_low, int node_high, int query_low, int query_high, int val) {
+    if(node_low >= query_low && node_high <= query_high) {
+        seg[node] += val;
+        return;
+    }
+    if(node_low > query_high || node_high < query_low) {
+        return;
+    }
+    int mid = (node_low + node_high) / 2;
+    update(2 * node, node_low, mid, query_low, query_high, val);
+    update(2 * node + 1, mid + 1, node_high, query_low, query_high, val);
+}
+
+ll query(int node, int node_low, int node_high, int query_low, int query_high) {
+    if(node_low >= query_low && node_high <= query_high) {
+        return seg[node];
+    }
+    if(node_low > query_high || node_high < query_low) {
+        return 0ll;
+    }
+    int mid = (node_low + node_high) / 2;
+    return query(2 * node, node_low, mid, query_low, query_high) + query(2 * node + 1, mid + 1, node_high, query_low, query_high) + seg[node];
+}
