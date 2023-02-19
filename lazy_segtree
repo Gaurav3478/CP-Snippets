@@ -1,35 +1,52 @@
-vector<ll> t;
+vector<ll> seg;
+vector<ll> lazy;
 
-void build(vector<ll> &a, int v, int tl, int tr) {
-    if (tl == tr) {
-        t[v] = a[tl];
-    } else {
-        int tm = (tl + tr) / 2;
-        build(a, v*2, tl, tm);
-        build(a, v*2+1, tm+1, tr);
-        t[v] = 0;
+void build(vector<ll> &a, int n) {
+    seg.clear();
+    lazy.clear();
+    seg.resize(2 * n, 0);
+    lazy.resize(2 * n, 0);
+    for(int i = 0; i < n; i++) {
+        seg[i + n] = a[i];
+    }
+    for(int i = n - 1; i >= 1; i--) {
+        seg[i] = seg[2 * i] + seg[2 * i + 1];
     }
 }
 
-//1, 0, n - 1, l, r, v
-void update(int v, int tl, int tr, int l, int r, int add) {
-    if (l > r)
+void push(int node, int node_low, int node_high) {
+    seg[node] += lazy[node] * (node_high - node_low + 1);
+    if(node_low != node_high) {
+        lazy[2 * node] += lazy[node];
+        lazy[2 * node + 1] += lazy[node];
+    }
+    lazy[node] = 0;
+}
+
+ll query(int node, int node_low, int node_high, int query_low, int query_high) {
+    push(node, node_low, node_high);
+    if(query_low <= node_low && query_high >= node_high) {
+        return seg[node];
+    }
+    if(query_low > node_high || query_high < node_low) {
+        return 0;
+    }
+    int mid = (node_low + node_high) / 2;
+    return query(2 * node, node_low, mid, query_low, query_high) + query(2 * node + 1, mid + 1, node_high, query_low, query_high);
+}
+
+void update(int node, int node_low, int node_high, int query_low, int query_high, int val) {
+    push(node, node_low, node_high);
+    if(query_low <= node_low && query_high >= node_high) {
+        lazy[node] += val;
+        push(node, node_low, node_high);
         return;
-    if (l == tl && r == tr) {
-        t[v] += add;
-    } else {
-        int tm = (tl + tr) / 2;
-        update(v*2, tl, tm, l, min(r, tm), add);
-        update(v*2+1, tm+1, tr, max(l, tm+1), r, add);
     }
-}
-
-ll query(int v, int tl, int tr, int pos) {
-    if (tl == tr)
-        return t[v];
-    int tm = (tl + tr) / 2;
-    if (pos <= tm)
-        return t[v] + query(v*2, tl, tm, pos);
-    else
-        return t[v] + query(v*2+1, tm+1, tr, pos);
+    if(query_low > node_high || query_high < node_low) {
+        return;
+    }
+    int mid = (node_low + node_high) / 2;
+    update(2 * node, node_low, mid, query_low, query_high, val);
+    update(2 * node + 1, mid + 1, node_high, query_low, query_high, val);
+    seg[node] = seg[2 * node] + seg[2 * node + 1];
 }
