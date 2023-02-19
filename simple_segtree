@@ -30,8 +30,8 @@ void update(int node, int node_low, int node_high, int query_low, int query_high
     if(query_low > node_high || query_high < node_low) {
         return;
     }
-    int left_last = (node_low + node_high) / 2;
-    update(2 * node, node_low, left_last, query_low, query_high, val);
-    update(2 * node + 1, left_last + 1, node_high, query_low, query_high, val);
+    int mid = (node_low + node_high) / 2;
+    update(2 * node, node_low, mid, query_low, query_high, val);
+    update(2 * node + 1, mid + 1, node_high, query_low, query_high, val);
     seg[node] = seg[2 * node] + seg[2 * node + 1];
 }
