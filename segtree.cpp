@@ -6,14 +6,6 @@ struct Lsegtree {
     T identity_element;
     U identity_update;
 
-    /*
-        Definition of identity_element: the element I such that combine(x,I) = x
-        for all x
-
-        Definition of identity_update: the element I such that apply(x,I) = x
-        for all x        
-    */
-
     Lsegtree(ll n, T identity_element, U identity_update) {
         this->n = n;
         this->identity_element = identity_element;
@@ -103,7 +95,7 @@ struct Lsegtree {
         return queryUtil(0, 0, n - 1, l, r);
     }
 
-    void update(ll l,ll r, U upd) {
+    void update(ll l, ll r, U upd) {
         updateUtil(0, 0, n - 1, l, r, upd);
     }
 };
