@@ -75,7 +75,7 @@ public:
         if(tr < l or tl > r) {
             return;
         }
-        if(tl >= l and tr <=r) {
+        if(tl >= l and tr <= r) {
             lazy[v] = combineUpdate(lazy[v], upd, tl, tr);
             push_down(v, tl, tr);
         }
@@ -88,7 +88,6 @@ public:
     }
 
     void build(vector<T> a) {
-        assert((ll)a.size() == n);
         buildUtil(0, 0, n - 1, a);
     }
 
