@@ -7,7 +7,7 @@ public:
     T identity_element;
     U identity_update;
 
-    Lsegtree(ll n, T identity_element, U identity_update) {
+    Segtree(ll n, T identity_element, U identity_update) {
         this->n = n;
         this->identity_element = identity_element;
         this->identity_update = identity_update;
