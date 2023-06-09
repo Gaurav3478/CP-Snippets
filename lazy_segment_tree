@@ -32,6 +32,9 @@ public:
     }
 
     void propagate(ll node, ll node_low, ll node_high) {
+        if(lazy[node] == identity_update) {
+            return
+        }
         if(node_low != node_high){
             ll mid = (node_low + node_high) >> 1;
             lazy[2 * node + 1] = combineUpdate(lazy[2 * node + 1], lazy[node]);
