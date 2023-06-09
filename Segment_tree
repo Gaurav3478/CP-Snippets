@@ -1,0 +1,97 @@
+template<class T, class U>
+class Segtree {
+public:
+    vector<T> st;
+    vector<U> lazy;
+    ll n;
+    T identity_element;
+    U identity_update;
+
+    Segtree(ll n, T identity_element, U identity_update) {
+        this->n = n;
+        this->identity_element = identity_element;
+        this->identity_update = identity_update;
+        st.assign(4 * n,identity_element);
+        lazy.assign(4 * n, identity_update);
+    }
+
+    T combine(T l, T r) {
+        T ans = (l + r);
+        return ans;
+    }
+
+    U combineUpdate(U old_upd, U new_upd) {
+        U ans = old_upd;
+        ans = (ans + new_upd);
+        return ans;
+    } 
+
+    T apply(T curr, U upd, ll node_low, ll node_high) {
+        T ans = (curr + (node_high - node_low + 1) * upd);
+        return ans;
+    }
+
+    void propagate(ll node, ll node_low, ll node_high) {
+        if(node_low != node_high){
+            ll mid = (node_low + node_high) >> 1;
+            lazy[2 * node + 1] = combineUpdate(lazy[2 * node + 1], lazy[node]);
+            lazy[2 * node + 2] = combineUpdate(lazy[2 * node + 2], lazy[node]);
+            st[2 * node + 1] = apply(st[2 * node + 1], lazy[node], node_low, mid);
+            st[2 * node + 2] = apply(st[2 * node + 2], lazy[node], mid + 1, node_high);
+            lazy[node] = identity_update;
+        }
+    }
+
+    T query(ll node, ll node_low, ll node_high, ll l, ll r) {
+        if(node_low > r || node_high < l) {
+            return identity_element;
+        }
+        if(node_low >= l && node_high <= r) {
+            return st[node];
+        }
+
+        propagate(node, node_low, node_high);
+        ll mid = (node_low + node_high) >> 1;
+        return combine(query(2 * node + 1, node_low, mid, l, r), query(2 * node + 2, mid + 1, node_high, l, r));
+    }
+
+    T query(ll l, ll r) {
+        return query(0, 0, n - 1, l, r);
+    }
+
+    void update(ll node, ll node_low, ll node_high, ll l, ll r, U upd) {
+        if(node_low > r || node_high < l) {
+            return;
+        }
+        if(node_low >= l && node_high <= r) {
+            lazy[node] = combineUpdate(lazy[node], upd);
+            st[node] = apply(st[node], upd, node_low, node_high);
+            return;
+        }
+
+        propagate(node, node_low, node_high);
+        ll mid = (node_low + node_high) >> 1;
+        update(2 * node + 1, node_low, mid, l, r, upd);
+        update(2 * node + 2, mid + 1, node_high, l, r, upd);
+        st[node] = combine(st[2 * node + 1], st[2 * node + 2]);
+    }
+
+    void update(ll l, ll r, U upd) {
+        update(0, 0, n - 1, l, r, upd);
+    }
+
+    void build(ll node, ll node_low, ll node_high, vector<T> &a) {
+        if(node_low == node_high) {
+            st[node] = a[node_low];
+            return;
+        }
+        ll mid = (node_low + node_high) >> 1;
+        build(2 * node + 1, node_low, mid, a);
+        build(2 * node + 2, mid + 1, node_high, a);
+        st[node] = combine(st[2 * node + 1], st[2 * node + 2]);
+    }
+
+    void build(vector<T> a) {
+        build(0, 0, n - 1, a);
+    }
+};
