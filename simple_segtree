@@ -57,4 +57,12 @@ public:
         update(2 * node + 1, mid + 1, node_high, query_low, query_high, val);
         seg[node] = operation(seg[2 * node], seg[2 * node + 1]);
     }
+
+    ll query(int query_low, int query_high) {
+        return query(1, 0, size - 1, query_low, query_high);
+    }
+
+    void update(int query_low, int query_high, int val) {
+        update(1, 0, size - 1, query_low, query_high, val);
+    }
 };
