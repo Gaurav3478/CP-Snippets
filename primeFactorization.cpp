@@ -1,14 +1,13 @@
-int MAXN = 3e5 + 5;
-vector<int> spf(MAXN + 1, 1);
-
-void Sieve() {
-    for(int i = 2; i <= MAXN; i += 2) {
-        spf[i]=2;
+vector<int> spf;
+void Sieve(int n) {
+    spf.resize(n + 1, 1);
+    for(int i = 2; i <= n; i += 2) {
+        spf[i] = 2;
     }
 
-    for(int i = 3; i <= MAXN; i += 2) {
+    for(int i = 3; i <= n; i += 2) {
         if(spf[i] == 1) {
-            for(int j = i; j <= MAXN; j += i) {
+            for(int j = i; j <= n; j += i) {
                 if(spf[j] == 1) {
                     spf[j] = i;
                 }
