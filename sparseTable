@@ -1,4 +1,3 @@
-class Solution {
 struct sparseTable {
     int n, k;
     vector<vector<int>> table;
