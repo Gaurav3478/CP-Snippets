@@ -7,6 +7,9 @@ while(!pq.empty()) {
     int node = pq.top().second;
     int wt = pq.top().first;
     pq.pop();
+    if(wt != dist[node]) {
+        continue;
+    }
     for(auto x: adj[node]) {
         int adjNode = x.first;
         int edgeWt = x.second;
