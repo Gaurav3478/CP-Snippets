@@ -47,7 +47,7 @@ public:
             return;
         }
         st[v] = apply(st[v], lazy[v], tl, tr);
-        if(2 * v + 1 <= 4 * n) {
+        if(2 * v + 2 < 4 * n) {
             ll tm = (tl + tr) >> 1;
             lazy[2 * v + 1] = combineUpdate(lazy[2 * v + 1], lazy[v], tl, tm);
             lazy[2 * v + 2] = combineUpdate(lazy[2 * v + 2], lazy[v], tm + 1,tr);            
