@@ -1,3 +1,6 @@
+vector<ll> fac;
+ll fac_N = 2e5 + 5;
+
 ll nCr(ll n, ll r) {
     if(r > n) {
         return 0ll;
@@ -6,8 +9,8 @@ ll nCr(ll n, ll r) {
 }
 
 fac.clear();
-fac.resize(N);
+fac.resize(fac_N + 5);
 fac[0] = fac[1] = 1;
-for(int i = 2; i <= N; i++) {
+for(int i = 2; i <= fac_N; i++) {
     fac[i] = (fac[i - 1] * i) % MOD;
 }
