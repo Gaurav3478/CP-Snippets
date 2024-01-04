@@ -1,4 +1,5 @@
 //credits Neal_Wu
+//https://codeforces.com/contest/1200/problem/E
 using hash_t = uint64_t;
  
 // When P = 2^32 - 13337, both P and (P - 1) / 2 are prime.
