@@ -64,7 +64,8 @@ struct string_hash {
         hash_t start_hash = (hash_t) prefix_hash[h][start] * hash_pow[h][end - start];
         return (prefix_hash[h][end] + HASH_P * HASH_P - start_hash) % HASH_P;
     }
- 
+    
+    //[l, r)
     hash_t combined_hash(int start, int end) const {
         return _substring_hash(0, start, end) + (HASH_COUNT > 1 ? _substring_hash(1, start, end) << 32 : 0);
     }
