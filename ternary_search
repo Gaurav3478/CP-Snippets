@@ -1,0 +1,31 @@
+ll low = 0, high = 1e9;
+ll ans = INF;
+for(int iter = 0; iter <= 80; iter++) {
+    ll mid1 = low + (high - low) / 3;
+    ll mid2 = high - (high - low) / 3;  
+    ll val1 = check(mid1), val2 = check(mid2);
+    ans = min({ans, val1, val2});
+    if(val1 <= val2) {
+        high = mid2;
+    }
+    else if(val2 < val1) {
+        low = mid1;
+    }
+}
+cout << ans;
+
+
+double l = -maxi, r = maxi;
+for(int iter = 0; iter <= 100; iter++) {
+    double m1 = l + (r - l) / 3;
+    double m2 = r - (r - l) / 3;
+    double f1 = f(m1);      //evaluates the function at m1
+    double f2 = f(m2);      //evaluates the function at m2
+    if (f1 < f2)
+        r = m2;
+    else
+        l = m1;
+}
+cout << fixed << setprecision(9) << f(l);
+
+//https://cp-algorithms.com/num_methods/ternary_search.html
